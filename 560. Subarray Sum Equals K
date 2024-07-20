@@ -1,0 +1,24 @@
+//560. Subarray Sum Equals K
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        Map<Integer,Integer> pastSum = new HashMap<>();
+
+        int sum = 0;
+        pastSum.put(0,1);
+        int ans = 0;
+
+        for(int i=0;i<nums.length;i++){
+            sum+=nums[i];
+
+            int rem = sum - k;
+
+            if(pastSum.containsKey(rem)){
+                
+                    ans+= pastSum.get(rem);
+               
+            }
+            pastSum.put(sum, pastSum.getOrDefault(sum,0)+1);
+        }
+        return ans;
+    }
+}
