@@ -1,0 +1,124 @@
+
+//54. Spiral Matrix
+class Solution {
+     public List<Integer> try1(int[][] matrix)
+        {
+            boolean left  = false;
+        boolean right = true;
+        boolean up    = false;
+        boolean down  = false;
+
+        int n = matrix.length;
+        int m = matrix[0].length;
+        int n_mid = n/2;
+        int m_mid = m/2;
+
+        int i=0;
+        int j=0;
+        List<Integer> ans = new ArrayList<>();
+
+        while(matrix[i][j] != 101 ){
+            ans.add(matrix[i][j]);
+            matrix[i][j]=101;
+            if(left==true){
+                    j--;
+            }else if(right==true){
+                    j++;
+            }else if(up==true){
+                    i--;
+            }else if(down==true){
+                    i++;
+            }
+
+            //now change the direction
+            if(i <= n_mid && j <= m_mid){
+                int diff = Math.abs(i-j);
+                if(diff == 1){
+                     left  = false;
+                     right = true;
+                     up    = false;
+                     down  = false;
+                }
+            }else if(i <= n_mid && j > m_mid){
+                int sum = i+j;
+                if(sum==m-1){
+                    left  = false;
+                     right = false;
+                     up    = false;
+                     down  = true;
+                }
+            }else if(i > n_mid && j <= m_mid){
+                int sum = i+j;
+                if(sum==n-1){
+                    left  = false;
+                     right = false;
+                     up    = true;
+                     down  = false;
+                }
+            }else if(i > n_mid && j > m_mid){
+                int diff = Math.abs(i-j);
+                if(diff == Math.abs(n - m)){
+                     left  = true;
+                     right = false;
+                     up    = false;
+                     down  = false;
+                }
+            }
+            if(i<0 || i>=n || j<0 || j>=m){
+                break;
+            }
+        }
+
+        return ans;
+        }
+
+
+         public List<Integer> try2(int[][] matrix){
+            int n = matrix.length;
+            int m = matrix[0].length;
+
+            int top=0;
+            int right = m-1;
+            int down = n-1;
+            int left = 0;
+
+            int way =0;
+
+            List<Integer> ans =  new ArrayList<>();
+
+            while(top <= down && left <= right){
+                if(way==0){
+                    for(int i=left;i<=right;i++){
+                        ans.add(matrix[top][i]);
+                    }
+                    top++;
+                }
+                if(way==1){
+                    for(int i=top;i<=down;i++){
+                        ans.add(matrix[i][right]);
+                    }
+                    right--;
+                }
+                if(way==2){
+                    for(int i=right;i>=left;i--){
+                        ans.add(matrix[down][i]);
+                    }
+                    down--;
+                }
+                if(way==3){
+                    for(int i=down;i>=top;i--){
+                        ans.add(matrix[i][left]);
+                    }
+                    left++;
+                }
+                way++;
+                way = way % 4;
+            }
+
+            return ans;
+         }
+    public List<Integer> spiralOrder(int[][] matrix) {
+        
+        return try2(matrix);
+    }
+}
